@@ -1,0 +1,10 @@
+target/
+.git/
+.gitignore
+README.md
+Dockerfile
+Jenkinsfile
+k8s/
+.idea/
+.vscode/
+*.iml

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Travel Budget Planner</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="shell">
+
+    <header class="topbar">
+        <div class="logo">✈</div>
+        <nav class="pills">
+            <a class="pill active" href="#planner">Plan Trip</a>
+            <a class="pill" href="#dashboard">Dashboard</a>
+        </nav>
+        <button type="button" id="newTripBtn" class="pill new">＋ New Trip</button>
+    </header>
+
+    <!-- ===================== PLANNER FORM ===================== -->
+    <section id="planner" class="card planner">
+        <h1>Plan Your Trip</h1>
+        <p class="lead">Tell us where you are going and how much you can spend. We will suggest how to use your money.
+            All amounts are sample estimates, not live travel prices.</p>
+
+        <form id="planForm" novalidate>
+            <div class="form-grid">
+                <div>
+                    <label for="from">From (your city)</label>
+                    <input type="text" id="from" list="cityList" placeholder="e.g. Hyderabad" autocomplete="off" maxlength="60">
+                    <datalist id="cityList"></datalist>
+                </div>
+                <div>
+                    <label for="to">To (destination)</label>
+                    <select id="to"></select>
+                </div>
+                <div>
+                    <label for="days">Number of days</label>
+                    <input type="number" id="days" min="1" max="30" step="1" placeholder="e.g. 4">
+                </div>
+                <div>
+                    <label for="members">Number of members</label>
+                    <input type="number" id="members" min="1" max="50" step="1" placeholder="e.g. 2">
+                </div>
+                <div>
+                    <label for="budget">Total budget (₹)</label>
+                    <input type="number" id="budget" min="1" step="any" placeholder="e.g. 25000">
+                </div>
+            </div>
+
+            <div id="errorBox" class="error-box" hidden></div>
+
+            <div class="buttons">
+                <button type="submit" class="btn primary">Plan My Trip</button>
+                <button type="button" id="resetBtn" class="btn secondary">Reset</button>
+                <button type="button" id="sampleBtn" class="btn ghost">Try Sample</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <section id="dashboard" hidden>
+        <div id="banner" class="banner"></div>
+
+        <div class="dash">
+
+            <div class="card hero c-hero">
+                <div class="hero-top">
+                    <span class="kicker">YOUR TRIP</span>
+                    <span class="tag" id="heroTag">Goa</span>
+                </div>
+                <div class="hero-text">
+                    <div class="hey">Hey traveller! 👋</div>
+                    <h2 id="heroTitle">Welcome to your trip!</h2>
+                    <div class="hero-sub" id="heroSub"></div>
+                    <div class="hero-meta" id="heroMeta"></div>
+                </div>
+            </div>
+
+            <div class="card c-budget">
+                <div class="card-head"><span>◔ BUDGET</span><span class="chip" id="budgetChip">TOTAL ₹0</span></div>
+                <div class="donut-wrap">
+                    <div class="donut" id="donut"></div>
+                    <div class="donut-center"><strong id="donutPct">0%</strong><small>planned</small></div>
+                </div>
+                <ul class="legend" id="legend"></ul>
+            </div>
+
+            <div class="card c-expenses">
+                <div class="card-head"><span>🧾 EXPENSES</span></div>
+                <ul class="exp-list" id="expList"></ul>
+                <div class="exp-total"><span>Total plan</span><strong id="expTotal">₹0</strong></div>
+            </div>
+
+            <div class="card health c-health">
+                <div class="card-head"><span>⏳ BUDGET HEALTH</span></div>
+                <div class="ring-wrap">
+                    <div class="ring" id="ring"></div>
+                    <div class="ring-center"><small>Budget used</small><strong id="ringPct">0%</strong></div>
+                </div>
+                <div class="health-status" id="healthStatus"></div>
+                <div class="health-text" id="healthText"></div>
+            </div>
+
+            <div class="card c-route">
+                <div class="card-head"><span>📍 DESTINATIONS</span></div>
+                <div class="route-box" id="routeBox"></div>
+                <ul class="stops" id="stops"></ul>
+            </div>
+
+            <div class="card weather c-weather">
+                <div class="card-head"><span id="wxPlace">📍 GOA</span></div>
+                <div class="wx-row">
+                    <div>
+                        <div class="wx-label">Typical temperature</div>
+                        <div class="wx-sub">Sample data, not live</div>
+                    </div>
+                    <div class="wx-temp" id="wxTemp">24-33 C</div>
+                </div>
+                <div class="wx-note" id="wxNote"></div>
+            </div>
+
+            <div class="card journey c-journey">
+                <div class="card-head"><span>🚆 JOURNEY</span></div>
+                <div class="j-row"><small>Going</small><strong id="jOut"></strong></div>
+                <div class="j-row"><small>Return</small><strong id="jBack"></strong></div>
+                <div class="j-row"><small>Mode</small><strong id="jMode"></strong></div>
+                <div class="j-row"><small>Distance</small><strong id="jDist"></strong></div>
+                <div class="j-row"><small>Round trip per person</small><strong id="jFare"></strong></div>
+                <div class="j-note" id="jNote"></div>
+            </div>
+
+            <div class="card days c-days">
+                <div class="card-head"><span>DAYS &amp; ACTIVITY</span></div>
+                <div id="itinerary"></div>
+            </div>
+
+            <div class="card packing c-packing">
+                <div class="card-head"><span>🎒 PACKING LIST</span></div>
+                <ul class="pack" id="packList"></ul>
+            </div>
+
+            <div class="card c-options">
+                <div class="card-head"><span>⚖️ PLAN OPTIONS</span></div>
+                <p class="muted" id="optionsIntro"></p>
+                <div id="options"></div>
+            </div>
+
+            <div class="card c-tips">
+                <div class="card-head"><span>💡 SMART MONEY TIPS</span></div>
+                <ul class="tips" id="tips"></ul>
+            </div>
+
+        </div>
+        <p class="disclaimer">All prices, distances, weather and places are sample estimates for learning and demonstration. They are not live travel prices.</p>
+    </section>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
