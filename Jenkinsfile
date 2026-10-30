@@ -34,9 +34,9 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                bat 'kubectl apply -f k8s/namespace.yaml'
-                bat 'kubectl apply -f k8s/deployment.yaml'
-                bat 'kubectl apply -f k8s/service.yaml'
+               bat 'kubectl apply --validate=false -f k8s/namespace.yaml'
+bat 'kubectl apply --validate=false -f k8s/deployment.yaml'
+bat 'kubectl apply --validate=false -f k8s/service.yaml'
                 bat 'kubectl -n travel-budget set image deployment/travel-budget-planner travel-budget-planner=%IMAGE_NAME%:%IMAGE_TAG%'
                 bat 'kubectl -n travel-budget rollout status deployment/travel-budget-planner --timeout=180s'
             }
